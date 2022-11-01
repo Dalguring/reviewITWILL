@@ -3,9 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%
- MemberVO member = (MemberVO)request.getAttribute("member");
- %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +36,7 @@
 	</c:if>
 	<header>
 		<!-- Login, Join 링크 표시 영역(inc/top.jsp 페이지 삽입) -->
-		<jsp:include page="<%=request.getContextPath() %>/WEB-INF/inc/top.jsp"></jsp:include>
+		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<h1>회원 정보 조회</h1>
 	<form action="" method="post" name="joinForm">

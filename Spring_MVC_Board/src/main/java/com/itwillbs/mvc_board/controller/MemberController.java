@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.mvc_board.cipher.MyMessageDigest;
 import com.itwillbs.mvc_board.service.MemberService;
@@ -85,7 +86,26 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	
+	// MemberInfo.me 요청에 대한 회원정보 조회 처리 => GET
+	// => 파라미터 : 아이디
+	// => 조회 결과(회원 1명의 정보)를 저장하는 MemberVO 객체를 저장할 Model 타입 변수 필요
+	//	  전달받은 아이디와 비교를 통해 권한 확인에 사용될 세션 객체
+	@GetMapping(value = "/MemberInfo.me")
+	public String getMemberInfo(@RequestParam String id,@ModelAttribute Model model, HttpSession session) {
+		String sId = (String)session.getAttribute("sId");
+		if(id == null || sId == null 
+					  || !id.equals(sId)
+					  || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "member/fail_back";
+		} else {
+			MemberVO member = service.getMemberInfo(id);
+			System.out.println(member);
+			model.addAttribute("member", member);
+			return "member/member_info";
+		}
+		
+	}
 	
 	
 	

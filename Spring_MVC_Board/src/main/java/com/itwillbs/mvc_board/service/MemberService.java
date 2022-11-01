@@ -29,5 +29,9 @@ public class MemberService {
 		return mapper.loginMember(member);
 	}
 
+	public MemberVO getMemberInfo(String id) {
+		return mapper.selectMemberInfo(id);
+	}
+
 	
 }
