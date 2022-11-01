@@ -1,6 +1,9 @@
 package com.itwillbs.mvc_board.mapper;
 
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.mvc_board.vo.MemberVO;
 
@@ -17,5 +20,19 @@ public interface MemberMapper {
 	
 	// 3. 회원 정보 조회 작업에 필요한 selectMemberInfo() 메서드 정의
 	public MemberVO selectMemberInfo(String id);
+	
+	// 4. 전체 회원 목록 조회에 필요한 selectMemberList() 메서드 정의
+	// => 파라미터 : 없음,	리턴타입 : List<MemberVO>
+	public List<MemberVO> selectMemberList();
+	
+	// 5. 회원 삭제에 필요한 deleteMember() 메서드 정의
+	public int deleteMember(String id);
+	
+	// 6. 회원 정보 수정에 필요한 updateMember() 메서드 정의
+	// => *단, 복수개의 파라미터가 전달될 경우 각 파라미터를 Mapper에서 구별하기 위해
+	//	  @Param 어노테이션을 사용하여 해당 파라미터의 이름을 지정해줘야 한다!
+	//	  ex) @Param("member") MemberVO member, @Param("newPasswd") String newPasswd
+	//	  또는 Map 객체에 모두 넣은 후 한개만 전달하는 방법도 있음(이 방법이 좋음)
+	public int updateMember(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
 }

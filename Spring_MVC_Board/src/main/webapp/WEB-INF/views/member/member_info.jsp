@@ -24,6 +24,13 @@
 			document.joinForm.email2.readOnly = true; // 입력창 잠금
 		}
 	} 
+	
+	function confirmLeave(id) {
+		let result = confirm("탈퇴하시겠습니까?");
+		if(result) {
+			location.href="MemberDelete.me?id=" + id;
+		}
+	}
 </script>
 </head>
 <body>
@@ -39,7 +46,7 @@
 		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<h1>회원 정보 조회</h1>
-	<form action="" method="post" name="joinForm">
+	<form action="MemberModify.me" method="post" name="joinForm">
 		<table border="1">
 			<tr>
 				<td>이름</td>
@@ -63,26 +70,13 @@
 			<tr>
 				<td>E-Mail</td>
 				<td>
-					<!-- 하나로 결합된 e-mail 주소를 @ 기호를 기준으로 문자열 분리 -->
-<%-- 					<input type="text" name="email1" required="required" size="10" value="<%=member.getEmail().split("@")[0] %>">@ --%>
-<%-- 					<input type="text" name="email2" required="required" size="10" value="<%=member.getEmail().split("@")[1] %>"> --%>
-					<!-- EL을 사용하여 문자열 분리 작업 및 배열 접근을 동일하게 수행하는 방법 -->
-					<!-- JSTL funtions 라이브러리 필요 -->
-					<c:set var="email" value="${fn:split(member.email, '@')}"></c:set>
-					<input type="text" name="email1" value="${email[0] }" required="required" size="10">@
-					<input type="text" name="email2" value="${email[1] }" required="required" size="10">
-					<!-- 별도의 변수 저장 없이 분리 결과를 즉시 배열로 접근 -->
-					<select name="selectDomain" onchange="changeDomain(this.value)">
-						<option value="">직접입력</option>	
-						<option value="naver.com">naver.com</option>
-						<option value="nate.com">nate.com</option>
-					</select>
+					<input type="text" name="email" value="${member.email }" required="required">
 				</td>
 			</tr>
 			<tr>
 				<td>아이디</td>
 				<td>
-					<input type="text" name="id" required="required" size="20" placeholder="4-16자리 영문자,숫자 조합" value="${member.id }">
+					<input type="text" name="id" required="required" size="20" readonly="readonly" placeholder="4-16자리 영문자,숫자 조합" value="${member.id }">
 					<span id="checkIdResult"><!-- 자바스크립트에 의해 메세지가 표시될 공간 --></span>
 				</td>
 			</tr>
@@ -95,14 +89,14 @@
 			<tr>
 				<td>새 패스워드</td>
 				<td>
-					<input type="password" name="newPasswd" required="required" size="20" placeholder="8-20자리 영문자,숫자,특수문자 조합">
+					<input type="password" name="newPasswd" size="20" placeholder="8-20자리 영문자,숫자,특수문자 조합">
 					<span id="checkPasswdResult"><!-- 자바스크립트에 의해 메세지가 표시될 공간 --></span>
 				</td>
 			</tr>
 			<tr>
 				<td>새 패스워드 확인</td>
 				<td>
-					<input type="password" name="newPasswd2" required="required" size="20" placeholder="8-20자리 영문자,숫자,특수문자 조합">
+					<input type="password" name="newPasswd2" size="20" placeholder="8-20자리 영문자,숫자,특수문자 조합">
 					<span id="checkPasswdResult2"><!-- 자바스크립트에 의해 메세지가 표시될 공간 --></span>
 				</td>
 			</tr>
@@ -110,6 +104,8 @@
 				<td colspan="2" align="center">
 					<input type="submit" value="회원정보수정">
 					<input type="button" value="취소" onclick="history.back()">
+					<!-- 탈퇴 버튼 클릭 시 확인을 통해 "MemberDelete.me"로 이동(id 파라미터 필요) -->
+					<input type="button" value="탈퇴" onclick="confirmLeave('${member.id}')">
 				</td>
 			</tr>
 		</table>

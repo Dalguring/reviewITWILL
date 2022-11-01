@@ -1,5 +1,7 @@
 package com.itwillbs.mvc_board.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,17 @@ public class MemberService {
 		return mapper.selectMemberInfo(id);
 	}
 
+	public List<MemberVO> getMemberList() {
+		return mapper.selectMemberList();
+	}
+
+	public int removeMember(String id) {
+		return mapper.deleteMember(id);
+	}
+
+	public int modifyMember(MemberVO member, String newPasswd) {
+		return mapper.updateMember(member, newPasswd);
+	}
+	
 	
 }

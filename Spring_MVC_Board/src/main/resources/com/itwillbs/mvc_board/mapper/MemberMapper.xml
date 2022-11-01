@@ -45,4 +45,39 @@
 		SELECT * FROM member
 		WHERE id=#{id}
 	</select>
+	
+	<!-- 
+	4. 전체 회원 목록 조회 작업 수행을 위한 select 태그 작성 => selectMemberList
+	=> 전체 데이터에 대한 resultType이 아닌 각 레코드에 대한 타입을 resultType으로 설정
+	   (조회된 레코드가 복수개일 경우 자동으로 List<지정된 resultType명> 타입에 해당하는 객체 생성됨)
+	=> 1명의 회원 정보가 MemberVO에 저장되고 
+	 -->
+	<select id="selectMemberList" resultType="com.itwillbs.mvc_board.vo.MemberVO">
+		SELECT * FROM member
+	</select>
+	
+	<!-- 
+	5. 회원 삭제 작업 수행을 위한 delete 태그 작성 => deleteMember
+	=> INSERT 작업과 동일
+	-->
+	<delete id="deleteMember">
+		DELETE FROM member
+		WHERE id=#{id}
+	</delete>
+	
+	<!-- 
+	6. 회원 정보 수정 작업 수행을 위한 update 태그 작성 => updateMember
+	=> INSERT 작업과 동일
+	=> 임시) 아이디와 기존 패스워드가 일치하는 레코드를 찾아 이름, 성별, 이메일, 새패스워드로 수정
+	-->
+	<update id="updateMember">
+		UPDATE member 
+			SET name=#{member.name},
+			gender=#{member.gender},
+			email=#{member.email},
+			passwd=#{newPasswd}
+		WHERE id=#{member.id} AND passwd=#{member.passwd}
+	</update>
+	
+	
 </mapper>

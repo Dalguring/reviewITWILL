@@ -66,7 +66,7 @@
 			<div id="sec_news">
 				<h3><span class="orange">Security</span> News</h3>
 				<dl>
-					<dt>Vivamus id ligula....</dt>
+					<dt>Vivamu id ligula....</dt>
 					<dd>Proin quis ante Proin quis anteProin 
 					quis anteProin quis anteProin quis anteProin 
 					quis ante......</dd>
