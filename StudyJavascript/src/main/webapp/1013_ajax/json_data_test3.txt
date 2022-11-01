@@ -1,0 +1,5 @@
+[
+	{"id":"admin", "name":"관리자", "age":0, "agreeRcvSpam":false},
+	{"id":"blussm", "name":"서성민", "age":28, "agreeRcvSpam":false},
+	{"id":"forming", "name":"조민지", "age":27, "agreeRcvSpam":true}
+]
