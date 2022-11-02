@@ -41,12 +41,12 @@
 <body>
 	<header>
 		<!-- Login, Join 링크 표시 영역(inc/top.jsp 페이지 삽입) -->
-		<jsp:include page="<%=request.getContextPath() %>/WEB-INF/inc/top.jsp"></jsp:include>
+		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<!-- 게시판 등록 -->
 	<section id="writeForm">
 		<h1>게시판 글 등록</h1>
-		<form action="BoardWritePro.bo" method="post" name="boardForm" enctype="multipart/form-data">
+		<form action="BoardWritePro.bo" method="post" name="boardForm">
 			<table>
 				<tr>
 					<td class="td_left"><label for="board_name">글쓴이</label></td>
@@ -65,10 +65,6 @@
 					<td class="td_right">
 						<textarea id="board_content" name="board_content" cols="40" rows="15" required="required"></textarea>
 					</td>
-				</tr>
-				<tr>
-					<td class="td_left"><label for="board_file">파일 첨부</label></td>
-					<td class="td_right"><input type="file" name="board_file" required="required" /></td>
 				</tr>
 			</table>
 			<section id="commandCell">

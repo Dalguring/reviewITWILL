@@ -85,7 +85,7 @@
 <body>
 	<header>
 		<!-- Login, Join 링크 표시 영역(inc/top.jsp 페이지 삽입) -->
-		<jsp:include page="<%=request.getContextPath() %>/WEB-INF/inc/top.jsp"></jsp:include>
+		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<!-- 게시판 리스트 -->
 	<section id="listForm">
@@ -109,7 +109,7 @@
 						<c:forEach var="i" begin="1" end="${board.board_re_lev }">
 							&nbsp;
 						</c:forEach>
-						<img src="images/re.gif"> <!-- 현재 이 페이지는 매핑된 주소로 표시되기에 주소표시줄 기준으로 경로 설정해야함 -->
+						<img src="<%=request.getContextPath() %>/resources/images/re.gif"> <!-- 현재 이 페이지는 매핑된 주소로 표시되기에 주소표시줄 기준으로 경로 설정해야함 -->
 					</c:if>
 					<%-- ========================================================================= --%>
 					<a href="BoardDetail.bo?board_num=${board.board_num}&pageNum=${pageInfo.pageNum}">
@@ -122,8 +122,20 @@
 			</c:forEach>
 		</table>
 	</section>
+	<br>
 	<section id="buttonArea">
-		<input type="button" value="글쓰기" onclick="location.href='BoardWriteForm.bo'" />
+		<form action="BoardList.bo" method="get">
+			<input type="hidden" name="pageNum" value="${pageNum }">
+			<select name="searchType">
+				<option value="subject">제목</option>
+				<option value="content">내용</option>
+				<option value="subject_content">제목&내용</option>
+				<option value="name">작성자</option>
+			</select>
+			<input type="text" name="keyword">
+			<input type="submit" value="검색">
+			<input type="button" value="글쓰기" onclick="location.href='BoardWriteForm.bo'" />
+		</form>
 	</section>
 	<section id="pageList">
 			<!-- 현재 페이지번호가 시작 페이지번호보다 클 때 현재 페이지번호 - 1 값으로 페이지 이동 -->

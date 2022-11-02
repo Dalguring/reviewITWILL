@@ -46,7 +46,17 @@ public class BoardListAction implements Action {
 		int pageListLimit = 10; // 한 페이지에서 표시할 페이지 목록을 10개로 제한
 		
 		// 전체 페이지 수 계산
-		int maxPage = listCount / listLimit;
+//		int maxPage = listCount / listLimit;
+//		if(listCount % listLimit > 0) {
+//			maxPage++;
+//		}
+		// 삼항연산자(조건연산자)를 활용하여 전체 페이지 수 계산
+		// => 총 게시물 수를 페이지 당 게시물 수로 나눈 결과값에
+		//	  남은  게시물 존재 시(나눈 나머지가 0보다 크면) 페이지 수 + 1, 아니면 + 0
+//		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 전체 페이지 수 계산
+		int maxPage = (int)Math.ceil((double)listCount / listLimit);
 		
 		if(listCount % listLimit > 0) {
 			maxPage++;

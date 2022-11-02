@@ -11,8 +11,9 @@ public class PageInfo {
 	private int endPage;
 	
 	public PageInfo() {}
-	
-	public PageInfo(int pageNum, int listLimit, int listCount, int pageListLimit, int maxPage, int startPage, int endPage) {
+
+	public PageInfo(int pageNum, int listLimit, int listCount, int pageListLimit, int maxPage, int startPage,
+			int endPage) {
 		this.pageNum = pageNum;
 		this.listLimit = listLimit;
 		this.listCount = listCount;
@@ -76,6 +77,14 @@ public class PageInfo {
 
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
+	}
+
+
+	@Override
+	public String toString() {
+		return "PageInfo [pageNum=" + pageNum + ", listLimit=" + listLimit + ", listCount=" + listCount
+				+ ", pageListLimit=" + pageListLimit + ", maxPage=" + maxPage + ", startPage=" + startPage
+				+ ", endPage=" + endPage + "]";
 	}
 	
 	
