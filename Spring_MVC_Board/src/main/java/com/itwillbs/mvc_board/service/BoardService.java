@@ -21,17 +21,39 @@ public class BoardService {
 		return mapper.insertBoard(board);
 	}
 
-	public List<BoardVO> getBoardList() {
-		return mapper.selectBoardList();
-	}
+//	public List<BoardVO> getBoardList() {
+//		return mapper.selectBoardList();
+//	}
 
-	public int getBoardListCount() {
-		return mapper.selectBoardListCount();
+	public int getBoardListCount(String searchType, String keyword) {
+		return mapper.selectBoardListCount(searchType, keyword);
 	}
 	
 	// 게시물 목록 조회
-	public List<BoardVO> getBoardList(int startRow, int listLimit) {
-		return mapper.selectBoardList(startRow, listLimit);
+	public List<BoardVO> getBoardList(int startRow, int listLimit, String searchType, String keyword) {
+		return mapper.selectBoardList(startRow, listLimit, searchType, keyword);
+	}
+	
+	// 게시물 상세 정보 조회
+	public BoardVO getBoard(String board_num) {
+		return mapper.selectBoard(board_num);
+	}
+	
+	// 조회수 증가 작업
+	public void increaseReadcount(String board_num) {
+		mapper.updateReadcount(board_num);
+	}
+
+	public int removeboard(BoardVO board) {
+		return mapper.deleteBoard(board);
+	}
+
+	public BoardVO getModifyForm(String board_num) {
+		return mapper.selectBoard(board_num);
+	}
+
+	public int modifyBoard(BoardVO board) {
+		return mapper.updateBoard(board);
 	}
 	
 
