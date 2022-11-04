@@ -26,6 +26,9 @@ public interface BoardMapper {
 
 	public int updateBoard(BoardVO board);
 
-//	public int selectMaxNum();
+	public int insertReplyBoard(BoardVO board);
+
+	public void updateBoardReSeq(BoardVO board);
+
 	
 }

@@ -55,6 +55,17 @@ public class BoardService {
 	public int modifyBoard(BoardVO board) {
 		return mapper.updateBoard(board);
 	}
+
+	public int registReplyBoard(BoardVO board) {
+		return mapper.insertReplyBoard(board);
+	}
+	
+	// 순서번호 board_re_seq 조정
+	public void increaseBoardReSeq(BoardVO board) {
+		mapper.updateBoardReSeq(board);
+		
+	}
+
 	
 
 }

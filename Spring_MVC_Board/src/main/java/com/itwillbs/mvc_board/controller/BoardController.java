@@ -212,4 +212,35 @@ public class BoardController {
 		}
 	}
 	
+	@GetMapping(value = "BoardReplyForm.bo")
+	public String reply(@RequestParam String board_num, Model model) {
+		BoardVO board = service.getBoard(board_num);
+		model.addAttribute("board", board);
+		return "board/qna_board_reply";
+	}
+	
+	// "BoardReplyPro.bo" 서블릿 요청에 대한 답글 작성 요청 - POST
+	@PostMapping(value = "BoardReplyPro.bo")
+	public String replyPro(@ModelAttribute BoardVO board, int pageNum, Model model) {
+		// Service - increaseBoardReSeq() 메서드 호출하여 순서번호 조정요청
+		// => 파라미터 : BoardVO 객체,		리턴타입 : void
+		service.increaseBoardReSeq(board);
+		
+		// Service - registReplyBoard() 메서드 호출
+		// => 파라미터 : BoardVO 객체,		리턴타입 : int(insertCount)
+		int insertCount = service.registReplyBoard(board);
+		
+		if(insertCount > 0) {
+			return "redirect:/BoardList.bo?pageNum=" + pageNum;
+		} else {
+			model.addAttribute("msg", "답글 등록 실패!");
+			return "member/fail_back";
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

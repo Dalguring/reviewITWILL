@@ -45,12 +45,12 @@
 <body>
 	<header>
 		<!-- Login, Join 링크 표시 영역(inc/top.jsp 페이지 삽입) -->
-		<jsp:include page="<%=request.getContextPath() %>/WEB-INF/inc/top.jsp"></jsp:include>
+		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<!-- 게시판 답변하기 -->
 	<section id="replyForm">
 		<h2>글 답변하기</h2>
-		<form action="BoardReplyPro.bo" method="post" name="replyForm" enctype="multipart/form-data">
+		<form action="BoardReplyPro.bo" method="post" name="replyForm">
 		<input type="hidden" name="board_num" value="${param.board_num }">
 		<input type="hidden" name="pageNum" value="${param.pageNum }">
 		<input type="hidden" name="board_re_ref" value="${board.board_re_ref }">
@@ -68,17 +68,13 @@
 				</tr>
 				<tr>
 					<td class="td_left"><label for="board_subject">제목</label></td>
-					<td class="td_right"><input type="text" name="board_subject" required="required" value="${board.board_subject }"/></td>
+					<td class="td_right"><input type="text" name="board_subject" required="required" value="re: ${board.board_subject }"/></td>
 				</tr>
 				<tr>
 					<td class="td_left"><label for="board_content">내용</label></td>
 					<td class="td_right">
 						<textarea id="board_content" name="board_content" cols="40" rows="15" required="required">${board.board_content }</textarea>
 					</td>
-				</tr>
-				<tr>
-					<td class="td_left"><label for="board_file">파일 첨부</label></td>
-					<td class="td_right"><input type="file" name="board_file" required="required" /></td>
 				</tr>
 			</table>
 			<section id="commandCell">
