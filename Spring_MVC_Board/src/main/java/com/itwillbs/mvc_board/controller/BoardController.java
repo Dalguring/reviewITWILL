@@ -24,10 +24,25 @@ public class BoardController {
 		return "board/qna_board_write";
 	}
 	
+//	@PostMapping(value = "/BoardWritePro.bo")
+//	public String writePro(@ModelAttribute BoardVO board, Model model) {
+////		board.setBoard_num(service.getMaxNum()+1);
+//		int insertCount = service.registBoard(board);
+//		
+//		if(insertCount > 0) {
+//			return "redirect:/BoardList.bo";
+//		} else {
+//			model.addAttribute("msg", "글 쓰기 실패!");
+//			return "member/fail_back";
+//		}
+//	}
+	// 파일업로드 기능 추가
 	@PostMapping(value = "/BoardWritePro.bo")
 	public String writePro(@ModelAttribute BoardVO board, Model model) {
+		System.out.println(board.getBoard_file());
 //		board.setBoard_num(service.getMaxNum()+1);
-		int insertCount = service.registBoard(board);
+//		int insertCount = service.registBoard(board);
+		int insertCount = 0;
 		
 		if(insertCount > 0) {
 			return "redirect:/BoardList.bo";
