@@ -1,7 +1,9 @@
 package com.itwillbs.mvc_board.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -77,11 +79,31 @@ public class BoardController {
 		
 		// 파일명 중복 방지를 위한 대책
 		// 시스템에서 랜덤ID 값을 추출하여 파일명 앞에 "랜덤ID값_파일명"형식으로 설정
+		String uuid = UUID.randomUUID().toString();
+		System.out.println("업로드 될 파일명 : " + uuid + "_" + originalFileName);
 		
-//		int insertCount = service.registBoard(board);
-		int insertCount = 0;
+		// BoardVO 객체에 원본 파일명과 업로드 될 파일명 저장
+		// => 단, uuid를 결합한 파일명을 사용할 경우 원본 파일명과 실제 파일명ㅇ르 구분할 필요 없이
+		//	  하나의 컬럼에 저장해두고, 원본 파일명이 필요할 경우 "_"를 구분자로 지정하여
+		//	  문자열을 분리하면 두번째 파라미터가 원본 파일명이 된다!
+		board.setBoard_file(originalFileName); // 실제로는 불필요한 컬럼
+		board.setBoard_real_file(uuid + "_" + originalFileName);
+		
+		int insertCount = service.registBoard(board);
 		
 		if(insertCount > 0) {
+			// 파일 등록 작업 성공 시 실제 폴더 위치에 파일 업로드 수행
+			// => MultipartFile 객체의 transferTo() 메서드를 호출하여 파일 업로드 작업 수행
+			//	  (파라미터 : new File(업로드 경로, 업로드 할 파일명))
+			try {
+				mFile.transferTo(new File(saveDir, board.getBoard_real_file()));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
 			return "redirect:/BoardList.bo";
 		} else {
 			model.addAttribute("msg", "글 쓰기 실패!");
