@@ -2,6 +2,8 @@ package com.itwillbs.mvc_board.vo;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /*
  * mvc_board3 데이터베이스의 board 테이블(게시판) 1개 레코드(= 1개 게시물) 정보를 저장하는
  * Bean 클래스(DTO or VO) 정의
@@ -19,14 +21,15 @@ public class BoardVO {
 	private int board_re_seq;
 	private int board_readcount;
 	private Date board_date;
+	private MultipartFile file; // 파일 처리(input type="file")를 위한 Multipartfile 타입 설정
 	
 	@Override
 	public String toString() {
-		return "BoardBean [board_num=" + board_num + ", board_name=" + board_name + ", board_pass=" + board_pass
+		return "BoardVO [board_num=" + board_num + ", board_name=" + board_name + ", board_pass=" + board_pass
 				+ ", board_subject=" + board_subject + ", board_content=" + board_content + ", board_file=" + board_file
 				+ ", board_real_file=" + board_real_file + ", board_re_ref=" + board_re_ref + ", board_re_lev="
 				+ board_re_lev + ", board_re_seq=" + board_re_seq + ", board_readcount=" + board_readcount
-				+ ", board_date=" + board_date + "]";
+				+ ", board_date=" + board_date + ", file=" + file + "]";
 	}
 
 	public int getBoard_num() {
@@ -123,6 +126,14 @@ public class BoardVO {
 
 	public void setBoard_date(Date board_date) {
 		this.board_date = board_date;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }
