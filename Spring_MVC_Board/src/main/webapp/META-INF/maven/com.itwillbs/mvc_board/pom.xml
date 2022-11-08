@@ -33,7 +33,7 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
-		<!-- MySQL - JDBC 연동에 필요한 라이브러리 추가 -->
+		<!-- MySQL - JDBC 연동에 필요한 라이브러리 추가 -->		
 		<!-- 1. JDBC 연동에 필요한 기능을 제공하는 spring-jdbc 라이브러리(기존 스프링버전 사용) -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
@@ -41,7 +41,7 @@
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
-		
+				
 		<!-- 2. MySQL-Connector 추가 -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -50,15 +50,15 @@
 		    <version>8.0.29</version>
 		</dependency>
 		
-		<!-- HikariCP 라이브러리(Tomcat DBCP 대용으로 사용 가능한 커넥션 풀) -->
-		<!-- Tomcat DBCP에 비해 가볍고, 빠르고, 안정적인 처리가 가능한 라이브러리 -->
-		<!-- mvnrepository.com 대신 https://github.com/brettwooldridge/HikariCP 링크 접속 -->
+		<!-- 3. HikariCP 라이브러리(Tomcat DBCP 대용으로 사용 가능한 커넥션 풀) -->
+		<!-- Tomcat DBCP 에 비해 가볍고, 빠르고, 안정적인 처리가 가능한 라이브러리 -->
+		<!-- mvcrepository.com 대신 https://github.com/brettwooldridge/HikariCP 링크 접속 -->
 		<!-- Java 8 maven artifact (maintenance mode) 항목 사용 -->
 		<dependency>
-	    <groupId>com.zaxxer</groupId>
-	    <artifactId>HikariCP</artifactId>
-	    <version>4.0.3</version>
-		</dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		   	<version>4.0.3</version>
+		</dependency>		
 		
 		<!-- 4. MyBatis 활용에 필요한 라이브러리 추가 -->
 		<!-- 4-1) MyBatis 기본 라이브러리 -->
@@ -76,6 +76,24 @@
 		    <artifactId>mybatis-spring</artifactId>
 		    <version>2.0.7</version>
 		</dependency>
+			
+			
+		<!-- 파일 처리 라이브러리(commons-io, commons-fileupload) -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+				
+				
 				
 		<!-- AspectJ -->
 		<dependency>
@@ -126,28 +144,14 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>2.11.0</version>
-		</dependency>
-		
+
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.4</version>
-		</dependency>
-		
+				
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

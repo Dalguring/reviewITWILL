@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>MVC 게시판</title>
 <link href="<%=request.getContextPath() %>/resources/css/top.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/default.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 	#modifyForm {
 		width: 500px;
@@ -46,16 +47,14 @@
 <body>
 	<header>
 		<!-- Login, Join 링크 표시 영역(inc/top.jsp 페이지 삽입) -->
-		<<jsp:include page="../inc/top.jsp"></jsp:include>
+		<jsp:include page="../inc/top.jsp"></jsp:include>
 	</header>
 	<!-- 게시판 수정하기 -->
 	<section id="modifyForm">
 		<h2>글 수정하기</h2>
 		<form action="BoardModifyPro.bo" method="post" name="modifyForm">
-			<input type="hidden" name="board_num" value="${board.board_num }" />
+			<input type="hidden" name="board_num" value="${param.board_num }" />
 			<input type="hidden" name="pageNum" value="${param.pageNum }" />
-<!-- 			파일수정 시 기존 파일 삭제를 위해 기존 파일명을 파라미터로 전달 -->
-			<input type="hidden" name="board_real_file" value="${board.board_real_file }">
 			<table>
 				<tr>
 					<td class="td_left"><label for="board_name">글쓴이</label></td>

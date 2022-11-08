@@ -51,16 +51,16 @@
 	<section id="replyForm">
 		<h2>글 답변하기</h2>
 		<form action="BoardReplyPro.bo" method="post" name="replyForm">
-		<input type="hidden" name="board_num" value="${param.board_num }">
-		<input type="hidden" name="pageNum" value="${param.pageNum }">
-		<input type="hidden" name="board_re_ref" value="${board.board_re_ref }">
-		<input type="hidden" name="board_re_lev" value="${board.board_re_lev }">
-		<input type="hidden" name="board_re_seq" value="${board.board_re_seq }">
 			<!-- 답변 글 작성에 필요한 게시물 정보 중 입력받지 않는 정보도 함께 전달 -->
+			<input type="hidden" name="pageNum" value="${param.pageNum }">
+			<input type="hidden" name="board_num" value="${param.board_num }">
+			<input type="hidden" name="board_re_ref" value="${board.board_re_ref }">
+			<input type="hidden" name="board_re_lev" value="${board.board_re_lev }">
+			<input type="hidden" name="board_re_seq" value="${board.board_re_seq }">
 			<table>
 				<tr>
 					<td class="td_left"><label for="board_name">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="board_name" required="required" /></td>
+					<td class="td_right"><input type="text" name="board_name"" required="required"/></td>
 				</tr>
 				<tr>
 					<td class="td_left"><label for="board_pass">비밀번호</label></td>
@@ -68,7 +68,9 @@
 				</tr>
 				<tr>
 					<td class="td_left"><label for="board_subject">제목</label></td>
-					<td class="td_right"><input type="text" name="board_subject" required="required" value="re: ${board.board_subject }"/></td>
+					<td class="td_right">
+						<input type="text" name="board_subject" value="Re:${board.board_subject }" required="required" />
+					</td>
 				</tr>
 				<tr>
 					<td class="td_left"><label for="board_content">내용</label></td>

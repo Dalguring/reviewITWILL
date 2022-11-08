@@ -71,8 +71,8 @@
 					<td class="td_right"><input type="file" name="file" required="required" /></td>
 					<!-- 
 					주의! BoardVO 객체의 String 타입 파일명(board_file)과 동일한 name 속성이 아니라
-					Multipartfile 객체 타입의 파일명과 동일해야한다!
-					 -->
+					MultipartFile 객체 타입의 파일명과 동일해야한다! 
+					-->
 				</tr>
 			</table>
 			<section id="commandCell">

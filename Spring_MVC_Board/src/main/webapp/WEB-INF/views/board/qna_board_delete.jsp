@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>MVC 게시판</title>
 <link href="<%=request.getContextPath() %>/resources/css/top.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/default.css" rel="stylesheet" type="text/css">
 <style>
 	#passForm {
 		width: 300px;
@@ -35,8 +36,9 @@
 	<h2>게시판 글 삭제</h2>
 	<section id="passForm">
 		<form action="BoardDeletePro.bo" name="deleteForm" method="post">
-		<input type="hidden" name="pageNum" value="${param.pageNum }">
-		<input type="hidden" name="board_num" value="${param.board_num }">
+			<!-- 글번호와 페이지번호도 함께 폼 파라미터로 전달 -->
+			<input type="hidden" name="board_num" value="${param.board_num }">
+			<input type="hidden" name="pageNum" value="${param.pageNum }">
 			<table>
 				<tr>
 					<td><label>글 비밀번호 : </label></td>
