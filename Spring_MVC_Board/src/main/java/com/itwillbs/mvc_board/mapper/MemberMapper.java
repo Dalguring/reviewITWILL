@@ -16,8 +16,11 @@ public interface MemberMapper {
 
 	// 2. 로그인에 필요한 loginMember() 메서드 정의
 	// => 파라미터 : MemberVO 객체(member), 리턴타입 : MemberVO
-	public MemberVO loginMember(MemberVO member);
-
+//	public MemberVO loginMember(MemberVO member);
+	
+	// BCrpytPasswordEncoder 활용 로그인에 필요한 selectPasswd() 메서드 정의
+	public String selectPasswd(String id);
+	
 	// 3. 회원 정보 조회에 필요한 selectMemberInfo() 메서드 정의
 	// => 파라미터 : 아이디, 리턴타입 : MemberVO
 	public MemberVO selectMemberInfo(String id);
@@ -38,7 +41,7 @@ public interface MemberMapper {
 	//    @Param 어노테이션을 사용하여 해당 파라미터의 이름을 지정해줘야 한다!
 	//    ex) @Param("member") MemberVO member, @Param("newPasswd") String newPasswd
 	public int updateMember(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
-	
+
 	
 }
 
