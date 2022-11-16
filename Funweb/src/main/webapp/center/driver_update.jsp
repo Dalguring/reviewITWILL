@@ -54,8 +54,9 @@ FileBoardDTO board = dao.selectFileBoard(num);
 			<form action="driver_updatePro.jsp" method="post" enctype="multipart/form-data">
 				<!-- 입력받지 않은 글번호도 함께 전달 -->
 				<input type="hidden" name="num" value="<%=request.getParameter("num")%>">
-				<!-- 기존 파일 삭제를 위해 실제 업로드 파일명도 함께 전달 -->
-				<input type="hidden" name="real_file" value="<%=board.getReal_file()%>">
+				<!-- 기존 파일 삭제를 위해 실제 업로드 파일명도 함께 전달(중복 피하기 위해 이름 변경) -->
+				<input type="hidden" name="old_real_file" value="<%=board.getReal_file()%>">
+				<input type="hidden" name="old_original_file" value="<%=board.getOriginal_file()%>">
 				<table id="notice">
 					<tr>
 						<td>글쓴이</td>
@@ -77,7 +78,7 @@ FileBoardDTO board = dao.selectFileBoard(num);
 						<td>파일</td>
 						<td>
 							<%=board.getOriginal_file() %><br>
-							<input type="file" name="original_file" required="required">
+							<input type="file" name="original_file">
 						</td>
 					</tr>
 				</table>

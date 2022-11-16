@@ -33,23 +33,44 @@ board.setOriginal_file(multi.getOriginalFileName(fileElement)); // 원본 파일
 board.setReal_file(multi.getFilesystemName(fileElement)); // 실제 업로드 된 파일명
 //out.println("원본 파일명 : " + board.getOriginal_file() + ", 실제 파일명 : " + board.getReal_file());
 
+// 수정 업로드 할 파일을 선택하지 않았을 경우(업로드 파일명이 null 판별)
+boolean isNewFile = false; // 새 파일 업로드 여부를 저장할 변수 선언
+
+// 새 파일 존재 여부 확인
+if(board.getOriginal_file() == null) { // 새 파일 업로드를 하지 않았을 경우
+	// 기존 파일명을 FileBoard 객체에 덮어쓰기
+	board.setOriginal_file(multi.getParameter("old_original_file"));
+	board.setReal_file(multi.getParameter("old_real_file"));
+} else { // 새 파일 업로드를 선택했을 경우
+	// 새 파일이라는 표시로 isNewFile 변수값을 true로 변경
+	isNewFile = true;
+}
+
 //FileBoardDAO 객체의 updateFileBoard() 메서드를 호출하여 글 수정 작업 수행
 //=> 파라미터 : FileBoardDTO 객체(board)   리턴타입 : int(updateCount)
 FileBoardDAO dao = new FileBoardDAO();
 int updateCount = dao.updateFileBoard(board);
 
 if(updateCount > 0) { // 수정 성공 시
-	// ---------------- 기존 파일 삭제 처리 --------------
-	String realFile = multi.getParameter("real_file"); // 기존 업로드 된 파일명 가져오기
-// 	System.out.println(realFile);
+	// 새 파일 업로드 여부 판별
+	if(isNewFile) { // 새 파일 업로드 시
+		// 기존 파일(old_real_file) 삭제
+		File f = new File(realPath, multi.getParameter("old_real_file"));
+		if(f.exists()) {
+			f.delete();
+		}
+	} 
 	
-	File f = new File(realPath, realFile);
-	if(f.exists()) {
-		f.delete();
-	}
-	// ---------------------------------------------------
+	// 글 상세보기 페이지로 이동
 	response.sendRedirect("driver_content.jsp?num=" + board.getNum());	
 } else {
+	if(isNewFile) { // 새 파일 업로드 시
+		// 실패한 게시물에 대한 새 업로드(실제 업로드 파일) 파일 삭제
+		File f = new File(realPath, board.getReal_file());
+		if(f.exists()) {
+			f.delete();
+		}
+	} 
 	%>
 	<script>
 		alert("글 수정 실패!");
