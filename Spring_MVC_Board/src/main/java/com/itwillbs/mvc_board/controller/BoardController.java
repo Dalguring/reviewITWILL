@@ -253,7 +253,12 @@ public class BoardController {
 	
 	// "BoardDeletePro.bo" 서블릿 요청에 대한 글 삭제 - POST
 	@PostMapping(value = "/BoardDeletePro.bo")
-	public String deletePro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model) {
+	public String deletePro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model, HttpSession session) {
+		// Service - getRealFile() 메서드를 호출하여 삭제 전 실제 업로드된 파일명 조회 작업 요청
+		// 파라미터 : 글번호,	리턴타입 : String
+		String realFile = service.getRealFile(board.getBoard_num());
+//		System.out.println(realFile);
+		
 		// Service - removeBoard() 메서드 호출하여 삭제 작업 요청
 		// => 파라미터 : BoardVO 객체, 리턴타입 : int(deleteCount)
 		int deleteCount = service.removeBoard(board);
@@ -263,10 +268,21 @@ public class BoardController {
 		if(deleteCount == 0) {
 			model.addAttribute("msg", "패스워드 틀림!");
 			return "member/fail_back";
+		} else { // 삭제 성공 시
+			// File 객체를 delete() 메서드를 활용하여 실제 업로드 된 파일 삭제
+			String uploadDir = "/resources/upload"; // 가상의 업로드 경로
+			// => webapp/resources 폴더 내에 upload 폴더 생성 필요
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			System.out.println("실제 업로드 경로 : " + saveDir);
+			
+			File f = new File(saveDir, realFile); // 실제 경로를 갖는 File 객체 생성
+			// 만약, 해당 경로 상에 파일이 존재할 경우 삭제
+			if(f.exists()) { // 해당 경로에 파일이 존재할 경우
+				f.delete();
+			}
+			
+			return "redirect:/BoardList.bo?pageNum=" + pageNum;
 		}
-		
-		
-		return "redirect:/BoardList.bo?pageNum=" + pageNum;
 	}
 
 	// "BoardModifyForm.bo" 서블릿 요청에 대한 글 수정 폼 - GET
@@ -279,22 +295,189 @@ public class BoardController {
 		return "board/qna_board_modify";
 	}
 	
-	// "BoardModifyPro.bo" 서블릿 요청에 대한 글 수정 - POST
-	@PostMapping(value = "/BoardModifyPro.bo")
-	public String modifyPro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model) {
-		// Service - modifyBoard() 메서드 호출하여 수정 작업 요청
-		// => 파라미터 : BoardVO 객체, 리턴타입 : int(updateCount)
-		int updateCount = service.modifyBoard(board);
-		
-		// 수정 실패 시 "패스워드 틀림!" 메세지 저장 후 fail_back.jsp 페이지로 포워딩
-		// 아니면, BoardDetail.bo 서블릿 요청(글번호, 페이지번호 전달)
-		if(updateCount == 0) {
-			model.addAttribute("msg", "패스워드 틀림!");
-			return "member/fail_back";
-		}
-		
-		return "redirect:/BoardDetail.bo?board_num=" + board.getBoard_num() + "&pageNum=" + pageNum;
-	}
+//	// "BoardModifyPro.bo" 서블릿 요청에 대한 글 수정 - POST
+//	@PostMapping(value = "/BoardModifyPro.bo")
+//	public String modifyPro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model) {
+//		// Service - modifyBoard() 메서드 호출하여 수정 작업 요청
+//		// => 파라미터 : BoardVO 객체, 리턴타입 : int(updateCount)
+//		int updateCount = service.modifyBoard(board);
+//		
+//		// 수정 실패 시 "패스워드 틀림!" 메세지 저장 후 fail_back.jsp 페이지로 포워딩
+//		// 아니면, BoardDetail.bo 서블릿 요청(글번호, 페이지번호 전달)
+//		if(updateCount == 0) {
+//			model.addAttribute("msg", "패스워드 틀림!");
+//			return "member/fail_back";
+//		}
+//		
+//		return "redirect:/BoardDetail.bo?board_num=" + board.getBoard_num() + "&pageNum=" + pageNum;
+//	}
+	
+//	// "BoardModifyPro.bo" 서블릿 요청에 대한 글 수정 - POST (파일 수정 추가)
+//		@PostMapping(value = "/BoardModifyPro.bo")
+//		public String modifyPro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model, HttpSession session) {
+//			// 선택된 수정 업로드 파일명과 기존 파일명 출력
+//			System.out.println("기존 파일명 : " + board.getBoard_file());
+//			System.out.println("기존 실제파일명 : " + board.getBoard_real_file());
+//			System.out.println("새 파일명 : " + board.getFile().getOriginalFilename());
+//			
+//			// 기존 실제 파일명을 변수에 저장(= 새 파일 업로드 시 삭제하기 위함)
+//			String oldRealFile = board.getBoard_real_file();
+//			
+//			// 가상 업로드 경로에 대한 실제 업로드 경로 알아내기
+//			// => 단, request 객체에 getServletContext() 메서드 대신, session 객체로 동일한 작업 수행
+//			//    (request 객체에 해당 메서드 없음)
+//			String uploadDir = "/resources/upload"; // 가상의 업로드 경로
+//			// => webapp/resources 폴더 내에 upload 폴더 생성 필요
+//			String saveDir = session.getServletContext().getRealPath(uploadDir);
+//			System.out.println("실제 업로드 경로 : " + saveDir);
+//			
+//			File f = new File(saveDir); // 실제 경로를 갖는 File 객체 생성
+//			// 만약, 해당 경로 상에 디렉토리(폴더)가 존재하지 않을 경우 생성
+//			if(!f.exists()) { // 해당 경로가 존재하지 않을 경우
+//				// 경로 상의 존재하지 않는 모든 경로 생성
+//				f.mkdirs();
+//			}
+//			
+//			// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+//			MultipartFile mFile = board.getFile();
+//			
+//			// 새 파일 업로드 여부 판별
+//			boolean isNewFile = false; // 새 파일 업로드 여부 저장 변수 선언
+//			
+//			// MultipartFile 객체의 원본 파일명이 널스트링인지 판별
+//			// => 주의! 새 파일 업로드 여부와 관계없이 MultipartFile 객체는 항상 생성됨(null 판별 불가)
+//			// => 또한, 원본 파일명이 널스트링일 경우 기존 파읾ㅇ이 이미 VO 객체에 저장되어 있음
+//			if(!mFile.getOriginalFilename().equals("")) { // 새 파일 선택 o
+//				// 새 파일에 대한 정보를 생성하여 VO 객체에 덮어쓰기(원본 정보 대신 새 정보로 교체)
+//				String originalFileName = mFile.getOriginalFilename();
+//				long fileSize = mFile.getSize();
+//				System.out.println("파일명 : " + originalFileName);
+//				System.out.println("파일크기 : " + fileSize + " Byte");
+//				
+//				// 파일명 중복 방지를 위한 대책
+//				// 시스템에서 랜덤ID 값을 추출하여 파일명 앞에 "랜덤ID값_파일명"형식으로 설정
+//				String uuid = UUID.randomUUID().toString();
+//				System.out.println("업로드 될 파일명 : " + uuid + "_" + originalFileName);
+//				
+//				// BoardVO 객체에 원본 파일명과 업로드 될 파일명 저장
+//				// => 단, uuid를 결합한 파일명을 사용할 경우 원본 파일명과 실제 파일명ㅇ르 구분할 필요 없이
+//				//	  하나의 컬럼에 저장해두고, 원본 파일명이 필요할 경우 "_"를 구분자로 지정하여
+//				//	  문자열을 분리하면 두번째 파라미터가 원본 파일명이 된다!
+//				board.setBoard_file(originalFileName); // 실제로는 불필요한 컬럼
+//				board.setBoard_real_file(uuid + "_" + originalFileName);
+//				
+//				// 새 파일 업로드 표시
+//				isNewFile = true;
+//			} 
+//			// Service - modifyBoard() 메서드 호출하여 수정 작업 요청
+//			// => 파라미터 : BoardVO 객체, 리턴타입 : int(updateCount)
+//			int updateCount = service.modifyBoard(board);
+//			
+//			// 수정 실패 시 "패스워드 틀림!" 메세지 저장 후 fail_back.jsp 페이지로 포워딩
+//			// 아니면, BoardDetail.bo 서블릿 요청(글번호, 페이지번호 전달)
+//			if(updateCount == 0) { // 수정 실패 시
+//				// 임시 폴더에 업로드 파일이 저장되어 있으며
+//				// transferTo() 메서드를 호출하지 않으면 임시 폴더의 파일은 자동 삭제됨
+//				model.addAttribute("msg", "패스워드 틀림!");
+//				return "member/fail_back";
+//			} else { // 수정 성공 시
+//				// 수정 작업 성공 시 새 파일이 존재할 경우에만 실제 폴더 위치에 파일 업로드 수행
+//				// => 임시 폴더에 있는 업로드 파일을 실제 업로드 경로로 이동
+//				if(isNewFile) {
+//					try {
+//						mFile.transferTo(new File(saveDir, board.getBoard_real_file()));
+//						
+//						// 기존 업로드 된 실제 파일 삭제
+//						File f2 = new File(saveDir, oldRealFile);
+//						if(f2.exists()) {
+//							f2.delete();
+//						}
+//					} catch (IllegalStateException e) {
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				
+//				return "redirect:/BoardDetail.bo?board_num=" + board.getBoard_num() + "&pageNum=" + pageNum;
+//			}
+//		}
+	
+	// "BoardModifyPro.bo" 서블릿 요청에 대한 글 수정 - POST (파일 수정 추가2 - SQL 에서 판별)
+			@PostMapping(value = "/BoardModifyPro.bo")
+			public String modifyPro(@ModelAttribute BoardVO board, @RequestParam int pageNum, Model model, HttpSession session) {
+				// 선택된 수정 업로드 파일명과 기존 파일명 출력
+				System.out.println("기존 파일명 : " + board.getBoard_file());
+				System.out.println("기존 실제파일명 : " + board.getBoard_real_file());
+				System.out.println("새 파일명 : " + board.getFile().getOriginalFilename());
+				
+				// 기존 실제 파일명을 변수에 저장(= 새 파일 업로드 시 삭제하기 위함)
+				String oldRealFile = board.getBoard_real_file();
+				
+				// 가상 업로드 경로에 대한 실제 업로드 경로 알아내기
+				// => 단, request 객체에 getServletContext() 메서드 대신, session 객체로 동일한 작업 수행
+				//    (request 객체에 해당 메서드 없음)
+				String uploadDir = "/resources/upload"; // 가상의 업로드 경로
+				// => webapp/resources 폴더 내에 upload 폴더 생성 필요
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				System.out.println("실제 업로드 경로 : " + saveDir);
+				
+				File f = new File(saveDir); // 실제 경로를 갖는 File 객체 생성
+				// 만약, 해당 경로 상에 디렉토리(폴더)가 존재하지 않을 경우 생성
+				if(!f.exists()) { // 해당 경로가 존재하지 않을 경우
+					// 경로 상의 존재하지 않는 모든 경로 생성
+					f.mkdirs();
+				}
+				
+				// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+				MultipartFile mFile = board.getFile();
+				
+				// 새 파일 업로드 여부와 관계없이 무조건 파일명을 가져와서 BoardVO 객체에 저장
+				String originalFileName = mFile.getOriginalFilename();
+				long fileSize = mFile.getSize();
+				System.out.println("파일명 : " + originalFileName);
+				System.out.println("파일크기 : " + fileSize + " Byte");
+				
+				String uuid = UUID.randomUUID().toString();
+				System.out.println("업로드 될 파일명 : " + uuid + "_" + originalFileName);
+				
+				board.setBoard_file(originalFileName);
+				board.setBoard_real_file(uuid + "_" + originalFileName);
+				
+				// Service - modifyBoard() 메서드 호출하여 수정 작업 요청
+				// => 파라미터 : BoardVO 객체, 리턴타입 : int(updateCount)
+				int updateCount = service.modifyBoard(board);
+				
+				// 수정 실패 시 "패스워드 틀림!" 메세지 저장 후 fail_back.jsp 페이지로 포워딩
+				// 아니면, BoardDetail.bo 서블릿 요청(글번호, 페이지번호 전달)
+				if(updateCount == 0) { // 수정 실패 시
+					// 임시 폴더에 업로드 파일이 저장되어 있으며
+					// transferTo() 메서드를 호출하지 않으면 임시 폴더의 파일은 자동 삭제됨
+					model.addAttribute("msg", "패스워드 틀림!");
+					return "member/fail_back";
+				} else { // 수정 성공 시
+					// 수정 작업 성공 시 새 파일이 존재할 경우에만 실제 폴더 위치에 파일 업로드 수행
+					// => 임시 폴더에 있는 업로드 파일을 실제 업로드 경로로 이동
+					// => 새 파일 존재 여부는 파일명이 널스트링이 아닌 것으로 판별
+					if(!originalFileName.equals("")) {
+						try {
+							mFile.transferTo(new File(saveDir, board.getBoard_real_file()));
+							
+							// 기존 업로드 된 실제 파일 삭제
+							File f2 = new File(saveDir, oldRealFile);
+							if(f2.exists()) {
+								f2.delete();
+							}
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					
+					return "redirect:/BoardDetail.bo?board_num=" + board.getBoard_num() + "&pageNum=" + pageNum;
+				}
+			}
 	
 	// "/BoardReplyForm.bo" 서블릿 요청에 대한 답글 폼 - GET
 	// Service - getBoard() 메서드 재사용

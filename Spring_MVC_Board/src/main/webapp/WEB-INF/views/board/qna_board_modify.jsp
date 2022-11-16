@@ -55,6 +55,8 @@
 		<form action="BoardModifyPro.bo" method="post" name="modifyForm" enctype="multipart/form-data">
 			<input type="hidden" name="board_num" value="${param.board_num }" />
 			<input type="hidden" name="pageNum" value="${param.pageNum }" />
+			<input type="hidden" name="board_real_file" value="${board.board_real_file }" />
+			<input type="hidden" name="board_file" value="${board.board_file }" />
 			<table>
 				<tr>
 					<td class="td_left"><label for="board_name">글쓴이</label></td>
@@ -85,8 +87,8 @@
 				<tr>
 					<td class="td_left"><label for="file">파일</label></td>
 					<td class="td_right">
-						<input type="file" name="file" required="required" /><br>
-						(기존 파일 : ${board.board_file })
+						(기존 파일 : ${board.board_file })<br>
+						<input type="file" name="file"/>
 					</td>
 				</tr>
 			</table>

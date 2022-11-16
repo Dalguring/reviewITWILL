@@ -67,6 +67,10 @@ public class BoardService {
 	public int registReplyBoard(BoardVO board) {
 		return mapper.insertReplyBoard(board);
 	}
+
+	public String getRealFile(int board_num) {
+		return mapper.selectRealFile(board_num);
+	}
 	
 }
 
