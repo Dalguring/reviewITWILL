@@ -398,8 +398,8 @@ public class FileBoardDAO {
 		return deleteCount;
 	}
 	
-	// 글 수정 작업 수행을 위한 updateFileBoard()
-	// => 파라미터 : FileBoardDTO 객체(board)    리턴타입 : int(updateCount)
+//	 글 수정 작업 수행을 위한 updateFileBoard()
+//	 => 파라미터 : FileBoardDTO 객체(board)    리턴타입 : int(updateCount)
 	public int updateFileBoard(FileBoardDTO board) {
 		int updateCount = 0;
 		
@@ -434,6 +434,8 @@ public class FileBoardDAO {
 		
 		return updateCount;
 	}
+	
+	
 	
 }
 

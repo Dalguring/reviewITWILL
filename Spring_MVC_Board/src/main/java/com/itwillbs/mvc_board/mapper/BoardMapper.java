@@ -8,27 +8,48 @@ import com.itwillbs.mvc_board.vo.BoardVO;
 
 public interface BoardMapper {
 
-	public int insertBoard(BoardVO board);
+	// 글 등록
+	int insertBoard(BoardVO board);
 
-	public List<BoardVO> selectBoardList();
+	// 전체 글 목록 갯수 조회
+	int selectBoardListCount(
+			@Param("searchType") String searchType, @Param("keyword") String keyword);
 
-	public int selectBoardListCount(@Param("searchType") String searchType, @Param("keyword") String keyword);
-	
 	// 게시물 목록 조회(복수개의 파라미터는 @Param 어노테이션으로 이름 설정)
-	public List<BoardVO> selectBoardList(@Param("startRow") int startRow,@Param("listLimit") int listLimit,
-										 @Param("searchType") String searchType, @Param("keyword") String keyword);
+	List<BoardVO> selectBoardList(
+			@Param("startRow") int startRow, @Param("listLimit") int listLimit,
+			@Param("searchType") String searchType, @Param("keyword") String keyword);
 
-	public BoardVO selectBoard(String board_num);
+	// 게시물 조회수 증가
+	void updateReadcount(int board_num);
 
-	public void updateReadcount(String board_num);
+	// 게시물 상세 정보 조회
+	BoardVO selectBoard(int board_num);
 
-	public int deleteBoard(BoardVO board);
+	// 게시물 삭제
+	int deleteBoard(BoardVO board);
 
-	public int updateBoard(BoardVO board);
+	// 게시물 수정
+	int updateBoard(BoardVO board);
 
-	public int insertReplyBoard(BoardVO board);
+	// 순서번호(board_re_seq) 조정
+	void updateBoardReSeq(BoardVO board);
 
-	public void updateBoardReSeq(BoardVO board);
+	// 답글 등록
+	int insertReplyBoard(BoardVO board);
 
+	// 
+	String selectRealFile(int board_num);
 	
 }
+
+
+
+
+
+
+
+
+
+
+

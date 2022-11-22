@@ -42,7 +42,7 @@ public class MyMessageDigest {
 				strHashedData += Integer.toHexString(digestResult[i] & 0xFF).toUpperCase();
 			}
 			
-//			System.out.println(strHashedData);
+			System.out.println(strHashedData);
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("해당 암호화 알고리즘이 존재하지 않습니다.");
 			e.printStackTrace();

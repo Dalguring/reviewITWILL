@@ -1,19 +1,18 @@
 package com.itwillbs.mvc_board.vo;
 
-// 페이징 처리를 위한 정보를 저장할 PageInfo 클래스 정의
+// 페이징 처리를 위한 정보를 저장할 PageInfo 클래스 정의(= DTO = Bean = VO 역할)
 public class PageInfo {
-	private int pageNum;
-	private int listLimit;
-	private int listCount;
-	private int pageListLimit;
-	private int maxPage;
-	private int startPage;
-	private int endPage;
+	private int pageNum; // 현재 페이지 번호
+	private int listLimit; // 페이지 당 게시물 목록 갯수
+	private int listCount; // 총 게시물 수
+	private int pageListLimit; // 페이지 당 표시할 페이지 번호 수
+	private int maxPage; // 전체 페이지 수
+	private int startPage; // 시작 페이지 번호
+	private int endPage; // 끝 페이지 번호
 	
 	public PageInfo() {}
 
-	public PageInfo(int pageNum, int listLimit, int listCount, int pageListLimit, int maxPage, int startPage,
-			int endPage) {
+	public PageInfo(int pageNum, int listLimit, int listCount, int pageListLimit, int maxPage, int startPage, int endPage) {
 		this.pageNum = pageNum;
 		this.listLimit = listLimit;
 		this.listCount = listCount;
@@ -79,7 +78,6 @@ public class PageInfo {
 		this.endPage = endPage;
 	}
 
-
 	@Override
 	public String toString() {
 		return "PageInfo [pageNum=" + pageNum + ", listLimit=" + listLimit + ", listCount=" + listCount
@@ -87,6 +85,19 @@ public class PageInfo {
 				+ ", endPage=" + endPage + "]";
 	}
 	
-	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
